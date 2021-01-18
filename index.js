@@ -7,7 +7,7 @@ const SeasonRouter = require('./routes/season.js')
 const HomeRouter = require('./routes/home.js')
 const mongoose = require('mongoose')
 const app = express()
-const port = 5000
+const port = process.env.PORT || 5000
 
 
 app.use(bodyParser.urlencoded({ extended: true }))
