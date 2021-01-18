@@ -9,7 +9,8 @@ router.post('/', async (req, res) => {
 
 
     const season = new Season({
-        title: req.body.title, 
+        name: req.body.name, 
+        img: req.body.img, 
         desc: req.body.desc, 
        
     });
@@ -59,7 +60,8 @@ router.put('/:Id', async (req, res) => {
     }
 
     await  Season.findByIdAndUpdate(req.params.Id, {
-        title: req.body.title, 
+        name: req.body.name, 
+        img: req.body.img, 
         desc: req.body.desc, 
     }, {new: true})
     .then(data => {
