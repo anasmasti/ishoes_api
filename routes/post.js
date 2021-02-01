@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/', async (req, res) => {
-    await  Post.find().populate('season', 'name -_id')
+    await  Post.find().populate('season', 'name -_id').sort({'updatedAt': 'desc'})
     .then(data => {
         res.send(data);
     }).catch(err => {
@@ -48,7 +48,18 @@ router.get('/:Id', async (req, res) => {
 });
 
 router.get('/new/post', async (req, res) => {
-    await Post.find( {new: true} ).populate('season', 'name -_id')
+    await Post.find( {new: true} ).populate('season', 'name -_id').sort({'updatedAt': 'desc'})
+    .then(data => {
+        res.send(data);
+    }).catch(err => {
+        res.status(500).send({
+            message: err.message || "error retrieving."
+        });
+    });
+});
+
+router.get('/take/post', async (req, res) => {
+    await Post.find().populate('season', 'name -_id').limit(2).sort({'updatedAt': 'desc'})
     .then(data => {
         res.send(data);
     }).catch(err => {
@@ -59,7 +70,7 @@ router.get('/new/post', async (req, res) => {
 });
 
 router.get('/byseason/:seasonid', async (req, res) => {
-    await Post.find( {'season' : req.params.seasonid}).populate('season', 'name -_id')
+    await Post.find( {'season' : req.params.seasonid}).populate('season', 'name -_id').sort({'updatedAt': 'desc'})
     .then(data => {
         res.send(data);
     }).catch(err => {
