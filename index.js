@@ -20,9 +20,6 @@ app.use(cors({
     allowedHeaders : 'Content-Type, X-Requested-With, Accept, Origin, Authorization'
 }))
 
-
-
-
 mongoose.connect(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -32,8 +29,6 @@ mongoose.connect(url, {
     console.log('Could not connect. Exiting now...', err);
     process.exit();
 });
-
-
 
 app.use('/', HomeRouter);
 app.use('/api/posts', PostRouter);

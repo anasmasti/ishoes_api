@@ -5,8 +5,6 @@ var router = express.Router()
 
 
 router.post('/', async (req, res) => {
-  
-
 
     const season = new Season({
         name: req.body.name, 
@@ -24,7 +22,6 @@ router.post('/', async (req, res) => {
     });
 });
 
-
 router.get('/', async (req, res) => {
     await  Season.find().populate('product', 'name -_id')
     .then(data => {
@@ -35,7 +32,6 @@ router.get('/', async (req, res) => {
         });
     });
 });
-
 
 router.get('/:Id', async (req, res) => {
     await Season.findById(req.params.Id)
@@ -48,8 +44,6 @@ router.get('/:Id', async (req, res) => {
         res.send(data);
     })
 });
-
-
 
 router.put('/:Id', async (req, res) => {
    
@@ -73,7 +67,6 @@ router.put('/:Id', async (req, res) => {
         res.send(data);
     })
 });
-
 
 router.delete('/:Id', async (req, res) => {
     await  Season.findByIdAndRemove(req.params.Id)

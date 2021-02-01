@@ -4,10 +4,8 @@ var express = require('express');
 var router = express.Router()
 
 router.post('/', async (req, res) => {
-  
-   
 
-    const post = new Post({
+  const post = new Post({
         title: req.body.title , 
         img: req.body.img , 
         short_title: req.body.short_title , 
@@ -26,9 +24,8 @@ router.post('/', async (req, res) => {
     });
 });
 
-
 router.get('/', async (req, res) => {
-    await  Post.find()
+    await  Post.find().populate('season', 'name -_id')
     .then(data => {
         res.send(data);
     }).catch(err => {
@@ -38,9 +35,8 @@ router.get('/', async (req, res) => {
     });
 });
 
-
 router.get('/:Id', async (req, res) => {
-    await  Post.findById(req.params.Id)
+    await  Post.findById(req.params.Id).populate('season', 'name -_id')
     .then(data => {
         if(!data) {
             return res.status(404).send({
@@ -51,7 +47,27 @@ router.get('/:Id', async (req, res) => {
     })
 });
 
+router.get('/new/post', async (req, res) => {
+    await Post.find( {new: true} ).populate('season', 'name -_id')
+    .then(data => {
+        res.send(data);
+    }).catch(err => {
+        res.status(500).send({
+            message: err.message || "error retrieving."
+        });
+    });
+});
 
+router.get('/byseason/:seasonid', async (req, res) => {
+    await Post.find( {'season' : req.params.seasonid}).populate('season', 'name -_id')
+    .then(data => {
+        res.send(data);
+    }).catch(err => {
+        res.status(500).send({
+            message: err.message || "error retrieving."
+        });
+    });
+});
 
 router.put('/:Id', async (req, res) => {
    
@@ -60,7 +76,6 @@ router.put('/:Id', async (req, res) => {
             message: "content can't be empty"
         });
     }
-
     await  Post.findByIdAndUpdate(req.params.Id, {
         title: req.body.title , 
         img: req.body.img , 
@@ -79,7 +94,6 @@ router.put('/:Id', async (req, res) => {
         res.send(data);
     })
 });
-
 
 router.delete('/:Id', async (req, res) => {
     await Post.findByIdAndRemove(req.params.Id)
