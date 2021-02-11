@@ -59,7 +59,7 @@ router.get('/new/post', async (req, res) => {
 });
 
 router.get('/take/post', async (req, res) => {
-    await Post.find().populate('season', 'name -_id').limit(2).sort({'updatedAt': 'desc'})
+    await Post.find().populate('season', 'name -_id').limit(10).sort({'updatedAt': 'desc'})
     .then(data => {
         res.send(data);
     }).catch(err => {
@@ -78,6 +78,16 @@ router.get('/byseason/:seasonid', async (req, res) => {
             message: err.message || "error retrieving."
         });
     });
+});
+
+router.get('/countbyseason/:seasonid', async (req, res) => {
+  const count = await Post.find({'season' : req.params.seasonid}).countDocuments();
+  return res.send(JSON.stringify(count));
+});
+
+router.get('/count/all', async (req, res) => {
+  const count = await Post.find().countDocuments();
+  return res.send(JSON.stringify(count));
 });
 
 router.put('/:Id', async (req, res) => {
