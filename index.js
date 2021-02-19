@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const PostRouter = require('./routes/post.js')
 const SeasonRouter = require('./routes/season.js')
 const HomeRouter = require('./routes/home.js')
+const PrivacyRouter = require('./routes/privacy.js')
 const mongoose = require('mongoose')
 const app = express()
 const port = process.env.PORT || 5000
@@ -31,6 +32,7 @@ mongoose.connect(url, {
 });
 
 app.use('/', HomeRouter);
+app.use('/privacypolicy', PrivacyRouter);
 app.use('/api/posts', PostRouter);
 app.use('/api/seasons', SeasonRouter);
 
